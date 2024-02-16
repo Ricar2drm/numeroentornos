@@ -6,30 +6,50 @@
     <title>Document</title>
 </head>
 <body>
-    <form>
-
-        <label for="numero_id">Introduce un número</label>
-        <input type="number" minlength="4" maxlength="4" id="numero_id">
-    </form>
+    
 </body>
 <script>
+let contador = 0;
 let numero = prompt('Introduce un número');
 
-console.log(typeof(numero));
-let numerocomocadena= numero +''; //así se convierte a un string
-console.log(typeof(numerocomocadena));
-console.log(numerocomocadena);
+if (numero.length !== 4 || isNaN(numero)) {
+    if (numero.length !== 4) {
+        console.log("El número debe tener 4 cifras");
+    }
+    if (isNaN(numero)) {
+        console.log("El valor introducido no es un número");
+    }
+} else if (numero === '6174') {
+    console.log("Ya has ingresado el número de Kaprekar.");
+} else {
+    let numeroEnArray = numero.split('');
+    
+    while (parseInt(numero) !== 6174) {
+        let numeroAscendenteArray = ascendente(numeroEnArray.slice());
+        let numeroDescendenteArray = descendente(numeroEnArray.slice());
+        let resultadoResta = restar(numeroDescendenteArray, numeroAscendenteArray);
+        numeroEnArray = resultadoResta.toString().split('');
+        numero = resultadoResta.toString();
+        contador++;
 
+        console.log("Número actual:", numero); // Salida de depuración
+    }
+    console.log("Se alcanzó 6174 en", contador, "pasos.");
+}
 
+function ascendente(numeroEnArray) {
+    return numeroEnArray.sort((a, b) => a - b);
+}
 
+function descendente(numeroEnArray) {
+    return numeroEnArray.sort((a, b) => b - a);
+}
 
-
-
-
-
-
-
-//numero caprecar
+function restar(numeroDescendenteArray, numeroAscendenteArray) {
+    let numeroDescendente = parseInt(numeroDescendenteArray.join(''));
+    let numeroAscendente = parseInt(numeroAscendenteArray.join(''));
+    return numeroDescendente - numeroAscendente;
+}
 </script>
 
 
